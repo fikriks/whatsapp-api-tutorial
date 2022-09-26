@@ -79,6 +79,12 @@ client.on('message', msg => {
           console.log('Error:', err);
       }
       break;
+    case "Hallo Fikri!":
+      msg.reply('Hallo Dadan!');
+      break;
+    case "Ayang":
+      msg.reply('Halo Ayang');
+      break;
     default:
       // msg.reply('Hallo Dadan!');
       break;
@@ -193,7 +199,7 @@ cron.schedule('* * * * *', async (req, res) => {
   const time = moment.tz('Asia/Jakarta').locale('id').format('HH.mm')
   const number = phoneNumberFormatter("6283120847424");
   let message;
-  let statePagi = false;
+  let statePagi = false
   let messagePagi = `Selamat Pagi, selamat hari ${today}, jadwal mata kuliah hari ini: \n`
 
   let text = ""
@@ -202,13 +208,14 @@ cron.schedule('* * * * *', async (req, res) => {
 
   for(let i of ditiJsin){
     if(i.jadwal.hari == today){
-      if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10){
+      console.log((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10));
+      if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10)){
         message = `10 Menit Lagi Absen Mata Kuliah ${i.nama}`
-      }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 5){
+      }else if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 5)){
         message = `5 Menit Lagi Absen Mata Kuliah ${i.nama}`
-      }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0){
-        message = `Saatnya Absen Mata Kuldiah ${i.nama}`
-      }else if(time == "00.16"){
+      }else if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0)){
+        message = `Saatnya Absen Mata Kuliah ${i.nama}`
+      }else if(time == "07.00"){
         statePagi = true
         messagePagi += `Nama Mata Kuliah: ${i.nama} \n`
       }
@@ -242,17 +249,6 @@ cron.schedule('* * * * *', async (req, res) => {
     // });
     console.log(err)
   });
-
-  const groupName = "FKOM TINFC-2021-02"
-
-  const group = await findGroupByName(groupName);
-  if (!group) {
-    return res.status(422).json({
-      status: false,
-      message: 'No group found with name: ' + groupName
-    });
-  }
-  chatId = group.id._serialized;
 
   client.sendMessage(chatId, message).then(response => {
     // res.status(200).json({
