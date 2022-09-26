@@ -193,6 +193,8 @@ cron.schedule('* * * * *', async (req, res) => {
   const time = moment.tz('Asia/Jakarta').locale('id').format('HH.mm')
   const number = phoneNumberFormatter("6283120847424");
   let message;
+  let statePagi = false;
+  let messagePagi = `Selamat Pagi, selamat hari ${today}, jadwal mata kuliah hari ini: \n`
 
   let text = ""
   const diti = fs.readFileSync('./lib/jadwal.json')
@@ -205,9 +207,16 @@ cron.schedule('* * * * *', async (req, res) => {
       }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 5){
         message = `5 Menit Lagi Absen Mata Kuliah ${i.nama}`
       }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0){
-        message = `Saatnya Absen Mata Kuliah ${i.nama}`
+        message = `Saatnya Absen Mata Kuldiah ${i.nama}`
+      }else if(time == "00.16"){
+        statePagi = true
+        messagePagi += `Nama Mata Kuliah: ${i.nama} \n`
       }
     }
+  }
+
+  if(statePagi){
+    message = messagePagi
   }
 
   const isRegisteredNumber = await checkRegisteredNumber(number);
