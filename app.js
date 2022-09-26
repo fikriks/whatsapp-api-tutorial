@@ -80,7 +80,7 @@ client.on('message', msg => {
       }
       break;
     default:
-      msg.reply('Hallo Dadan!');
+      // msg.reply('Hallo Dadan!');
       break;
   }
 
