@@ -5,16 +5,20 @@ const socketIO = require('socket.io');
 const qrcode = require('qrcode');
 const http = require('http');
 const fs = require('fs');
+const moment = require('moment-timezone')
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const fileUpload = require('express-fileupload');
 const axios = require('axios');
 const mime = require('mime-types');
+const cron = require('node-cron');
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
+
+// const time = moment(t * 1000).format('DD/MM HH:mm:ss')
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -39,6 +43,7 @@ app.get('/', (req, res) => {
 });
 
 const client = new Client({
+  perMessageDeflate: true,
   restartOnAuthFail: true,
   puppeteer: {
     headless: true,
@@ -47,6 +52,7 @@ const client = new Client({
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
+      '--disable-features=AudioServiceOutOfProcess',
       '--no-first-run',
       '--no-zygote',
       '--single-process', // <- this one doesn't works in Windows
@@ -57,26 +63,47 @@ const client = new Client({
 });
 
 client.on('message', msg => {
-  if (msg.body == '!ping') {
-    msg.reply('pong');
-  } else if (msg.body == 'good morning') {
-    msg.reply('selamat pagi');
-  } else if (msg.body == '!groups') {
-    client.getChats().then(chats => {
-      const groups = chats.filter(chat => chat.isGroup);
+  switch (msg.body) {
+    case "!jadwal":
+      try {
+        let text = ""
+        const diti = fs.readFileSync('./lib/jadwal.json')
+        const ditiJsin = JSON.parse(diti)
 
-      if (groups.length == 0) {
-        msg.reply('You have no group yet.');
-      } else {
-        let replyMsg = '*YOUR GROUPS*\n\n';
-        groups.forEach((group, i) => {
-          replyMsg += `ID: ${group.id._serialized}\nName: ${group.name}\n\n`;
-        });
-        replyMsg += '_You can use the group id to send a message to the group._'
-        msg.reply(replyMsg);
+        for(let i of ditiJsin){
+          text += `Nama Mata Kuliah: ${i.nama}\nSKS: ${i.sks}\nJadwal: ${i.jadwal}\nNama Dosen: ${i.dosen}\n\n`
+        }
+
+        msg.reply(text)
+      } catch (err) {
+          console.log('Error:', err);
       }
-    });
+      break;
+    default:
+      msg.reply('Hallo Dadan!');
+      break;
   }
+
+  // if (msg.body == '!ping') {
+  //   msg.reply('pong');
+  // } else if (msg.body == 'good morning') {
+  //   msg.reply('selamat pagi');
+  // } else if (msg.body == '!groups') {
+  //   client.getChats().then(chats => {
+  //     const groups = chats.filter(chat => chat.isGroup);
+
+  //     if (groups.length == 0) {
+  //       msg.reply('You have no group yet.');
+  //     } else {
+  //       let replyMsg = '*YOUR GROUPS*\n\n';
+  //       groups.forEach((group, i) => {
+  //         replyMsg += `ID: ${group.id._serialized}\nName: ${group.name}\n\n`;
+  //       });
+  //       replyMsg += '_You can use the group id to send a message to the group._'
+  //       msg.reply(replyMsg);
+  //     }
+  //   });
+  // }
 
   // NOTE!
   // UNCOMMENT THE SCRIPT BELOW IF YOU WANT TO SAVE THE MESSAGE MEDIA FILES
@@ -161,6 +188,80 @@ const checkRegisteredNumber = async function(number) {
 }
 
 // Send message
+cron.schedule('* * * * *', async (req, res) => {
+  const today = moment.tz('Asia/Jakarta').locale('id').format('dddd')
+  const time = moment.tz('Asia/Jakarta').locale('id').format('HH.mm')
+  const number = phoneNumberFormatter("6283120847424");
+  let message;
+
+  let text = ""
+  const diti = fs.readFileSync('./lib/jadwal.json')
+  const ditiJsin = JSON.parse(diti)
+
+  for(let i of ditiJsin){
+    if(i.jadwal.hari == today){
+      if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10){
+        message = `10 Menit Lagi Absen Mata Kuliah ${i.nama}`
+      }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 5){
+        message = `5 Menit Lagi Absen Mata Kuliah ${i.nama}`
+      }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0){
+        message = `Saatnya Absen Mata Kuliah ${i.nama}`
+      }
+    }else{
+      message = "Fikri KS Ganteng"
+    }
+  }
+
+  const isRegisteredNumber = await checkRegisteredNumber(number);
+
+  if (!isRegisteredNumber) {
+    // return res.status(422).json({
+    //   status: false,
+    //   message: 'The number is not registered'
+    // });
+    console.log('The number is not registered')
+  }
+
+  client.sendMessage(number, message).then(response => {
+    // res.status(200).json({
+    //   status: true,
+    //   response: response
+    // });
+    console.log('Sukses')
+  }).catch(err => {
+    // res.status(500).json({
+    //   status: false,
+    //   response: err
+    // });
+    console.log(err)
+  });
+
+  const groupName = "Percobaan"
+
+  const group = await findGroupByName(groupName);
+  if (!group) {
+    return res.status(422).json({
+      status: false,
+      message: 'No group found with name: ' + groupName
+    });
+  }
+  chatId = group.id._serialized;
+
+  client.sendMessage(chatId, message).then(response => {
+    // res.status(200).json({
+    //   status: true,
+    //   response: response
+    // });
+    console.log('Grup Sukses')
+  }).catch(err => {
+    // res.status(500).json({
+    //   status: false,
+    //   response: err
+    // });
+    console.log('Grup Error')
+  });
+});
+
 app.post('/send-message', [
   body('number').notEmpty(),
   body('message').notEmpty(),

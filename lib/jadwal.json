@@ -1,0 +1,123 @@
+[
+    {
+        "nama": "Literasi Teknologi",
+        "sks": "2",
+        "jadwal": {
+           "hari": "Kamis",
+           "mulai": "23.58",
+           "selesai": "18.00",
+           "ruangan": "Ruang E"
+        },
+        "dosen": "Iwan Lesmana, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Arsitektur dan Organisasi Komputer",
+        "sks": "3",
+        "jadwal": {
+            "hari": "Selasa",
+            "mulai": "08.00",
+            "selesai": "09.40",
+            "ruangan": "Ruang L"
+        },
+        "dosen": "Ir. Rachmat Ismaya, M. Kom."
+    },
+    {
+        "nama": "English Communication for IT",
+        "sks": "2",
+        "jadwal": {
+            "hari": "Selasa",
+            "mulai": "09.40",
+            "selesai": "11.20",
+            "ruangan": "Ruang G"
+        },
+        "dosen": "Nida Amalia Asikin, S.S., M. Pd."
+    },
+    {
+        "nama": "Aljabar Linear",
+        "sks": "3",
+        "jadwal": {
+            "hari": "Selasa",
+            "mulai": "13.00",
+            "selesai": "15.30",
+            "ruangan": "Ruang H"
+        },
+        "dosen": "Bambang Wahyudi, S.T., M.Kom."
+    },
+    {
+        "nama": "Matematika Diskrit",
+        "sks": "2",
+        "jadwal": {
+            "hari": "Rabu",
+            "mulai": "16.20",
+            "selesai": "18.00",
+            "ruangan": "Ruang B"
+        },
+        "dosen": "Roro Ening Hartini, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Praktikum Pemrograman Web 1",
+        "sks": "1",
+        "jadwal": {
+            "hari": "Kamis",
+            "mulai": "08.00",
+            "selesai": "09.40",
+            "ruangan": "LAB PEMROGRAMAN"
+        },
+        "dosen": "Yati Nurhayati, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Pemrograman Web 1",
+        "sks": "2",
+        "jadwal": {
+            "hari": "Kamis",
+            "mulai": "14.40",
+            "selesai": "16.20",
+            "ruangan": "Ruang E"
+        },
+        "dosen": "Yati Nurhayati, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Sistem Operasi",
+        "sks": "2",
+        "jadwal": {
+            "hari": "Jum'at",
+            "mulai": "08.00",
+            "selesai": "09.40",
+            "ruangan":"Ruang E"
+        },
+        "dosen": "Fitra Nugraha, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Praktikum Sistem Operasi",
+        "sks": "1",
+        "jadwal": {
+            "hari": "Jum'at",
+            "mulai": "09.40",
+            "selesai": "11.20",
+            "ruangan": "LAB APLIKASI"
+        },
+        "dosen": "Fitra Nugraha, S.Kom., M.Kom."
+    },
+    {
+        "nama": "Bahasa Pemrograman 1",
+        "sks": "2",
+        "jadwal": {
+            "hari": "Sabtu",
+            "mulai": "08.00",
+            "selesai": "09.40",
+            "ruangan": "Ruang A"
+        },
+        "dosen": "Tito Sugiharto, S.Kom., M.Eng."
+    },
+    {
+        "nama": "Praktikum Bahasa Pemrograman 1",
+        "sks": "1",
+        "jadwal": {
+            "hari": "Sabtu",
+            "mulai": "13.00",
+            "selesai": "14.40",
+            "ruangan": "LAB RPL"
+        },
+        "dosen": "Tito Sugiharto, S.Kom., M.Eng."
+    }
+]

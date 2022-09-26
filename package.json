@@ -1,7 +1,7 @@
 {
   "name": "whatsapp-api",
   "version": "1.0.0",
-  "description": "Whatsapp api by Ngekoding",
+  "description": "Whatsapp Api",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -15,14 +15,18 @@
   "author": "Nur Muhammad",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.27.2",
+    "chromium": "^3.0.3",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "express-validator": "^6.9.2",
     "http": "0.0.1-security",
     "mime-types": "^2.1.32",
+    "moment-timezone": "^0.5.37",
+    "node-cron": "^3.0.2",
     "qrcode": "^1.4.4",
-    "socket.io": "2.3.0",
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2",
     "whatsapp-web.js": "latest"
   },
   "devDependencies": {
