@@ -207,8 +207,6 @@ cron.schedule('* * * * *', async (req, res) => {
       }else if(i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0){
         message = `Saatnya Absen Mata Kuliah ${i.nama}`
       }
-    }else{
-      message = "Fikri KS Ganteng"
     }
   }
 
@@ -236,7 +234,7 @@ cron.schedule('* * * * *', async (req, res) => {
     console.log(err)
   });
 
-  const groupName = "Percobaan"
+  const groupName = "FKOM TINFC-2021-02"
 
   const group = await findGroupByName(groupName);
   if (!group) {
