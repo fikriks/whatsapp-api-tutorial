@@ -71,7 +71,7 @@ client.on('message', msg => {
         const ditiJsin = JSON.parse(diti)
 
         for(let i of ditiJsin){
-          text += `Nama Mata Kuliah: ${i.nama}\nSKS: ${i.sks}\nJadwal: ${i.jadwal}\nNama Dosen: ${i.dosen}\n\n`
+          text += `Nama Mata Kuliah: ${i.nama}\nSKS: ${i.sks}\nJadwal: ${i.jadwal.hari}, ${i.jadwal.mulai}-${i.jadwal.selesai}, ${i.jadwal.ruangan}\nNama Dosen: ${i.dosen}\n\n`
         }
 
         msg.reply(text)
@@ -87,6 +87,7 @@ client.on('message', msg => {
       break;
     default:
       // msg.reply('Hallo Dadan!');
+      
       break;
   }
 
