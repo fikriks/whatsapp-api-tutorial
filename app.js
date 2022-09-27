@@ -201,6 +201,7 @@ cron.schedule('* * * * *', async (req, res) => {
   let message;
   let statePagi = false
   let messagePagi = `Selamat Pagi, selamat hari ${today}, jadwal mata kuliah hari ini: \n`
+  const chatId = "6283822002616-1632111735@g.us"
 
   let text = ""
   const diti = fs.readFileSync('./lib/jadwal.json')
@@ -211,11 +212,14 @@ cron.schedule('* * * * *', async (req, res) => {
       console.log((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10));
       if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 10)){
         message = `10 Menit Lagi Absen Mata Kuliah ${i.nama}`
+        console.log("10 menit")
       }else if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 5)){
         message = `5 Menit Lagi Absen Mata Kuliah ${i.nama}`
+        console.log("5 menit")
       }else if((i.jadwal.mulai.substring(0,2) == time.substring(0,2)) && (i.jadwal.mulai.substring(3,5) - time.substring(3,5) == 0)){
         message = `Saatnya Absen Mata Kuliah ${i.nama}`
-      }else if(time == "07.00"){
+        console.log("0 menit")
+      }else if(time == "08.25"){
         statePagi = true
         messagePagi += `Nama Mata Kuliah: ${i.nama} \n`
       }
