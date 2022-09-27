@@ -80,14 +80,22 @@ client.on('message', msg => {
       }
       break;
     case "Hallo Fikri!":
-      msg.reply('Hallo Dadan!');
+      msg.reply(`Hallo ${msg._data.notifyName}!`);
+      break;
+    case "Halo Fikri!":
+      msg.reply(`Halo ${msg._data.notifyName}!`);
+      break;
+    case "Halo fikri":
+      msg.reply(`Hallo ${msg._data.notifyName}!`);
+      break;
+    case "Halo fikri!":
+      msg.reply(`Hallo ${msg._data.notifyName}!`);
       break;
     case "Ayang":
       msg.reply('Halo Ayang');
       break;
     default:
       // msg.reply('Hallo Dadan!');
-      
       break;
   }
 
